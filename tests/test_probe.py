@@ -106,7 +106,11 @@ class SessionTests(unittest.TestCase):
         self.assertTrue(result["worker_stopped"])
         directory = Path(result["directory"])
         lines = [json.loads(line) for line in (directory / "events.jsonl").read_text().splitlines()]
-        self.assertEqual(len(lines), 100)
+        probes = [item for item in lines if item["kind"] == "probe"]
+        self.assertEqual(len(probes), 100)
+        self.assertEqual([p["probe_index"] for p in probes], list(range(1, 101)))
+        self.assertTrue(all(item["kind"] == "probe" or item.get("reason") == "sampling_gap"
+                            for item in lines))
         self.assertEqual(len((directory / "probes.csv").read_text().splitlines()), 101)
         self.assertEqual(json.loads((directory / "summary.json").read_text())["probe_count"], 100)
         self.assertEqual(lines[0]["run_id"], result["run_id"])
@@ -144,6 +148,33 @@ class SessionTests(unittest.TestCase):
             result = run_session(output=self.output, duration=1)
         self.assertTrue(result["interrupted"])
         self.assertTrue((Path(result["directory"]) / "summary.json").exists())
+
+    def test_sampling_gap_remains_distinct_from_probe_count(self):
+        sampled = threading.Event()
+        class FakeSampler:
+            def __init__(self, clock):
+                self.clock, self.calls = clock, 0
+            def sample(self):
+                self.calls += 1
+                if self.calls >= 2:
+                    sampled.set()
+                return {**self.clock.stamp(), "kind": "sample", "sampling_ns": 1,
+                        "elapsed_seconds": 1 if self.calls >= 2 else None,
+                        "wall_drift_seconds": 0,
+                        "metrics": {"self_cpu_percent": 0, "self_rss_bytes": 1000}}
+        def probe(scenario, timeout, clock, stop):
+            if not sampled.wait(timeout=5):
+                raise RuntimeError("test sampler did not arrive")
+            return {**clock.stamp(), "kind": "probe", "status": "ok",
+                    "duration_ns": 1000, "cleanup_ok": True}
+        with patch("kirabridge_monitor.runner.Sampler", FakeSampler), \
+             patch("kirabridge_monitor.runner.probe_once", side_effect=probe):
+            result = run_session(output=self.output, repetitions=1, interval=0.01, post=0)
+        lines = [json.loads(line) for line in (Path(result["directory"]) / "events.jsonl").read_text().splitlines()]
+        self.assertEqual(sum(p["kind"] == "probe" for p in lines), 1)
+        self.assertGreaterEqual(result["sampling_gap_count"], 1)
+        self.assertGreaterEqual(result["incidents"], 1)
+        self.assertEqual(result["probe_count"], 1)
 
     def test_worker_failure_visible(self):
         with patch("kirabridge_monitor.runner.probe_once", side_effect=RuntimeError("private")):

@@ -70,3 +70,17 @@ konfiguriert; zum Zeitpunkt dieses Commits noch kein Remote-Testnachweis.
 Standard-Runner nur bei öffentlichem Repository aktiviert, keine Rohdaten-
 Uploads. `scripts/measure_local.py` ermöglicht die folgende sequenzielle
 Forschungsmessung mit Commit-Nachweis; `requirements-tested.txt` pinnt psutil.
+
+## Phase 4b – CI-Abweichung und Regression
+
+Erster CI-Lauf [40974641661](https://github.com/landjunge/KiraBridge-Test-Monitor/actions/runs/40974641661):
+Linux 3.9/3.13 und Windows-Grundpfade erfolgreich. macOS Intel scheiterte an
+einer zu engen Testannahme: events.jsonl enthielt korrekt 100 Probe-Ereignisse
+**plus zwei sampling_gap-Ereignisse**; der Test erwartete insgesamt 100 Zeilen.
+Der Test prüft jetzt Probezahl/Indexfolge getrennt von zulässigen Lücken.
+Ein deterministischer Regressionstest erzeugt eine Abtastlücke und prüft deren
+Vorfall sowie die unveränderte Probezahl. Keine Laufzeitänderung nötig.
+
+Akzeptanz: **39/39 lokal bestanden**, 17.551 s. Die parallel bereits gestartete
+Forschungsserie verwendete unverändert die Laufzeitmodule aus 93d3c73; während
+der Messung wurden keine lokalen Tests ausgeführt. Remote-Nachprüfung folgt.

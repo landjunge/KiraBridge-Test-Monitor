@@ -45,7 +45,7 @@ class MetricTests(unittest.TestCase):
         first = sampler.sample()
         second = sampler.sample()
         self.assertIsNone(first["metrics"]["cpu_percent"])
-        self.assertGreater(second["elapsed_seconds"], 0)
+        self.assertGreaterEqual(second["elapsed_seconds"], 0)
         self.assertIsNotNone(first["metrics"]["ram_total_bytes"])
         text = json.dumps(second)
         for forbidden in ("cmdline", "environ", "cwd", "username", "pid", "prompt"):
@@ -63,6 +63,18 @@ class MetricTests(unittest.TestCase):
         self.assertEqual(first["status"]["disk"], "unavailable")
         self.assertIsNone(first["processes"])
         self.assertEqual(scan.call_count, 1)
+
+    def test_repeated_monotonic_tick_produces_null_rates(self):
+        sampler = Sampler(Clock())
+        stamp = {"utc": "2026-10-30T00:00:00Z", "monotonic_ns": 1000000000}
+        with patch.object(sampler.clock, "stamp", side_effect=lambda: dict(stamp)):
+            sampler.sample()
+            result = sampler.sample()
+        self.assertEqual(result["elapsed_seconds"], 0)
+        self.assertIsNone(result["metrics"]["self_cpu_percent"])
+        for field, value in result["metrics"].items():
+            if field.endswith("_per_second"):
+                self.assertIsNone(value)
 
     def test_cpu_delta_and_wall_jump(self):
         cpu = namedtuple("CPU", "user system idle")

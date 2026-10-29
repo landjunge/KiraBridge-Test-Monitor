@@ -84,3 +84,17 @@ Vorfall sowie die unveränderte Probezahl. Keine Laufzeitänderung nötig.
 Akzeptanz: **39/39 lokal bestanden**, 17.551 s. Die parallel bereits gestartete
 Forschungsserie verwendete unverändert die Laufzeitmodule aus 93d3c73; während
 der Messung wurden keine lokalen Tests ausgeführt. Remote-Nachprüfung folgt.
+
+## Phase 4c – Plattformabhängige Zeitauflösung
+
+Zweiter CI-Lauf [40975252483](https://github.com/landjunge/KiraBridge-Test-Monitor/actions/runs/40975252483):
+macOS Intel und beide Linux-Jobs erfolgreich; Windows lieferte bei direkt
+folgenden Samples denselben monotonen Tick. Der Live-Test verlangte zu Unrecht
+streng positive Intervalle. Monotone Uhren dürfen wiederholte Werte liefern;
+der Sampler behandelt Intervall 0 bereits ohne Division und ohne erfundene Rate.
+Assertion auf nichtnegative Zeit korrigiert und deterministischen Nullintervall-
+Test hinzugefügt. Wieder keine Änderung der Laufzeitmodule.
+
+Akzeptanz: **40/40 lokal bestanden**, 17.972 s. Der neue Remote-Lauf prüft alle
+vier Matrixeinträge erneut. Diese Testkorrektur verändert die zuvor erhobenen
+Forschungsmessungen nicht.

@@ -139,7 +139,7 @@ class Sampler:
             idle = fields.get("idle", 0) + fields.get("iowait", 0)
             prior = self.previous_cpu
             delta = total - prior[0] if prior is not None else 0
-            metrics["cpu_percent"] = max(0, min(100, 100 * (1 - (idle - prior[1]) / delta))) if delta > 0 else None
+            metrics["cpu_percent"] = max(0, min(100, 100 * (1 - (idle - prior[1]) / delta))) if delta > 0 and idle >= prior[1] and (total - idle) >= (prior[0] - prior[1]) else None
             self.previous_cpu = (total, idle)
         else:
             metrics["cpu_percent"] = None
@@ -158,9 +158,11 @@ class Sampler:
             "disk_write_bytes": disk.write_bytes if disk else None,
             "net_sent_bytes": net.bytes_sent if net else None,
             "net_recv_bytes": net.bytes_recv if net else None,
-            "swap_in_bytes": swap.sin if swap else None,
-            "swap_out_bytes": swap.sout if swap else None,
+            "swap_in_bytes": swap.sin if swap and platform.system() not in ("Windows", "OpenBSD") else None,
+            "swap_out_bytes": swap.sout if swap and platform.system() not in ("Windows", "OpenBSD") else None,
         }
+        status["swap_activity"] = ("unsupported" if platform.system() in ("Windows", "OpenBSD")
+                                   else status["swap"])
         metrics.update(counters)
         metrics.update({key + "_per_second": value for key, value in
                         counter_rates(counters, self.previous_counters, elapsed).items()})
@@ -174,7 +176,7 @@ class Sampler:
         own_total = own_cpu.user + own_cpu.system if own_cpu else None
         metrics["self_cpu_percent"] = ((own_total - self.self_cpu) * 100 / elapsed
                                        if elapsed and own_total is not None
-                                       and self.self_cpu is not None else None)
+                                       and self.self_cpu is not None and own_total >= self.self_cpu else None)
         metrics["self_rss_bytes"] = own_rss
         self.self_cpu = own_total
         result.update(kind="sample", metrics=metrics, status=status,

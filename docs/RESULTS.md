@@ -25,3 +25,29 @@ read-only Samples, Warm-up, Counterreset, fehlende Rechte, Scan-Drosselung,
 Wandzeitsprung, feste Kategorien, Rotation/CSV-Header, Dateimodi, exklusives
 Öffnen/Symlinkschutz, Ringgrenze sowie Vor-/Nachlauf. Ein initialer Syntaxfehler
 wurde vor dem Commit korrigiert. Keine fremden Prozesse gestartet/beendet.
+
+## Phase 3 – CLI, Proben und Installation
+
+`monitor`, `baseline` und `overhead` implementiert, inklusive 100er-Default,
+vier festen synthetischen Szenarien, nur eigener Child-Prozess/DEVNULL,
+privaten Rohdaten, Median/nearest-rank-p95 und getrennten Timeout-/Fehlerquoten.
+Ein Writer-Eventloop übernimmt Probe-Ereignisse vom begrenzten Worker-Queue;
+SIGTERM/Ctrl-C und abgebrochener Nachlauf sind sichtbar. Setup/README und
+lokale Editable-Installation erfolgreich, `pip check` ohne Konflikte.
+
+Akzeptanz: `.venv/bin/python -m unittest discover -s tests -v`: **29/29**
+bestanden (17.496 s). Darunter eine echte 100er-Baseline (100 erfolgreiche
+Shell-Proben), alle Szenarien, eigener Timeout-Cleanup mit weiterlaufendem
+Kontrollprozess, Nichtnull-Exit, fehlendes Executable, Cancellation, begrenzte
+Statistik, CLI-Validierung, Workerfehler, keine Dateien in off/memory,
+unvollständiger Stop und vollständiger Blackbox-Nachlauf. Test-Tempdateien
+werden ab dieser Phase ausschließlich unter Repository/.tmp angelegt.
+
+Präzisierungen gegenüber Plan v1: Ringkapazität zählt Records (Samples und
+Ereignisse), keine zugesicherte Sekundendauer. Vier rotierende Streams mit
+zusammen standardmäßig höchstens 16 MiB pro Run; Metadaten/Summary je 64 KiB.
+Historische Runs werden nicht automatisch gelöscht. Streaming-Sample-Statistik
+auf die letzten 3600 Samples begrenzt; Probezahl auf 10000. Ausgabevolumentests
+gehen nach DEVNULL und bilden PTY/Renderer/MCP-Puffer nicht nach. Windows-
+Proben bleiben ausdrücklich späteres Ziel. Kernel-Speicherdruck hier normal/ok.
+Die Forschungs-Baselines und längere Eigenlastmessung folgen in Phase 4.

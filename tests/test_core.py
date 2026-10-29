@@ -80,7 +80,9 @@ class MetricTests(unittest.TestCase):
 
 class StorageTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        root = Path(__file__).resolve().parents[1] / ".tmp"
+        root.mkdir(exist_ok=True)
+        self.temp = tempfile.TemporaryDirectory(dir=root)
         self.addCleanup(self.temp.cleanup)
         self.directory = run_directory(self.temp.name)
 

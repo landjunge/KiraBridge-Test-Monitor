@@ -18,3 +18,9 @@ oder ein fehlendes ACK als Beweis für einen ausgebliebenen Prozess gelten.
 Der Monitor kann lokale Verzögerungen und Ressourcenzustände belegen;
 Kommunikationshypothesen brauchen später externe Ereignisse mit gemeinsamen IDs.
 PR-Status und Implementierungen können sich ändern; keine Codeübernahme.
+
+Technische Primärreferenzen: [psutil API](https://psutil.io/api/#psutil.swap_memory)
+für kumulative Swap-Zähler und Plattformgrenzen;
+[Python subprocess](https://docs.python.org/3.11/library/subprocess.html#subprocess.Popen.wait)
+für begrenztes Warten, DEVNULL und die nicht garantiert unterbrechbare
+Prozesserzeugung. Abhängigkeit bewusst <8 wegen angekündigter API-Änderungen.

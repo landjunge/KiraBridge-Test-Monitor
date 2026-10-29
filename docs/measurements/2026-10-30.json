@@ -1,0 +1,691 @@
+{
+  "architecture": "x86_64",
+  "code_commit": "93d3c73309ddc3c53e7b5375b2c35a70a43257a8",
+  "dirty_worktree": false,
+  "idle": [
+    {
+      "all_attempt_latency_ms": {
+        "max": null,
+        "median": null,
+        "n": 0,
+        "p95": null
+      },
+      "cancelled_count": 0,
+      "cleanup_failure_count": 0,
+      "declared_codex_instances": null,
+      "declared_windows": 1,
+      "directory": null,
+      "error_count": 0,
+      "error_rate": null,
+      "incidents": 0,
+      "incomplete_post_window": false,
+      "interrupted": false,
+      "memory_pressure_counts": {
+        "normal": 60
+      },
+      "mode": "memory",
+      "own_cpu_seconds": 0.6963170000000001,
+      "probe_count": 0,
+      "run_id": "c661e2bb-1f02-41b8-a451-62d0c91edecf",
+      "sample_count": 60,
+      "sample_interval_seconds": {
+        "max": 1.0050800330063794,
+        "median": 1.0003241090162192,
+        "n": 59,
+        "p95": 1.0043644100078382
+      },
+      "sample_window_count": 60,
+      "sampling_gap_count": 0,
+      "sampling_ms": {
+        "max": 148.738608,
+        "median": 1.9302555,
+        "n": 60,
+        "p95": 54.426165
+      },
+      "scenario": "noop",
+      "self_cpu_percent_one_core": {
+        "max": 8.291497888785816,
+        "median": 0.1977646552947106,
+        "n": 59,
+        "p95": 5.371799095214044
+      },
+      "self_rss_bytes": {
+        "max": 26157056,
+        "median": 26017792.0,
+        "n": 60,
+        "p95": 26157056
+      },
+      "success_count": 0,
+      "successful_latency_ms": {
+        "max": null,
+        "median": null,
+        "n": 0,
+        "p95": null
+      },
+      "swap_used_bytes": {
+        "max": 483131392,
+        "median": 483131392.0,
+        "n": 60,
+        "p95": 483131392
+      },
+      "system_cpu_percent": {
+        "max": 100,
+        "median": 30.47858942196968,
+        "n": 59,
+        "p95": 98.49624060155861
+      },
+      "timeout_count": 0,
+      "timeout_rate": null,
+      "wall_drift_abs_ms": {
+        "max": 0.030339695513248444,
+        "median": 0.008038070518523455,
+        "n": 59,
+        "p95": 0.021326326532289386
+      },
+      "wall_seconds": 60.00450641300995,
+      "worker_failed": false,
+      "worker_stopped": true
+    },
+    {
+      "all_attempt_latency_ms": {
+        "max": null,
+        "median": null,
+        "n": 0,
+        "p95": null
+      },
+      "cancelled_count": 0,
+      "cleanup_failure_count": 0,
+      "declared_codex_instances": null,
+      "declared_windows": 1,
+      "directory": "run-c01c1177c70444eb9b9ca062ab61c8df",
+      "error_count": 0,
+      "error_rate": null,
+      "incidents": 0,
+      "incomplete_post_window": false,
+      "interrupted": false,
+      "memory_pressure_counts": {
+        "normal": 60
+      },
+      "mode": "logging",
+      "own_cpu_seconds": 0.666715,
+      "probe_count": 0,
+      "run_id": "2d0d67dd-5970-4837-af17-565cb6879a06",
+      "sample_count": 60,
+      "sample_interval_seconds": {
+        "max": 1.005006826017052,
+        "median": 0.9996730889833998,
+        "n": 59,
+        "p95": 1.0044833790161647
+      },
+      "sample_window_count": 60,
+      "sampling_gap_count": 0,
+      "sampling_ms": {
+        "max": 55.37249,
+        "median": 1.897174,
+        "n": 60,
+        "p95": 52.652849
+      },
+      "scenario": "noop",
+      "self_cpu_percent_one_core": {
+        "max": 5.433854193455458,
+        "median": 0.20501160546896963,
+        "n": 59,
+        "p95": 5.248488192501583
+      },
+      "self_rss_bytes": {
+        "max": 27230208,
+        "median": 27213824.0,
+        "n": 60,
+        "p95": 27226112
+      },
+      "success_count": 0,
+      "successful_latency_ms": {
+        "max": null,
+        "median": null,
+        "n": 0,
+        "p95": null
+      },
+      "swap_used_bytes": {
+        "max": 483131392,
+        "median": 483131392.0,
+        "n": 60,
+        "p95": 483131392
+      },
+      "system_cpu_percent": {
+        "max": 57.070707071271265,
+        "median": 25.750000000698492,
+        "n": 59,
+        "p95": 47.48743718650289
+      },
+      "timeout_count": 0,
+      "timeout_rate": null,
+      "wall_drift_abs_ms": {
+        "max": 0.18045335309579968,
+        "median": 0.008882692782208323,
+        "n": 59,
+        "p95": 0.07560188532806933
+      },
+      "wall_seconds": 60.00168574199779,
+      "worker_failed": false,
+      "worker_stopped": true
+    }
+  ],
+  "logical_cpus": 4,
+  "method": "1 Hz; sequential; seed 20261029; no process/session manipulation; existing workload uncontrolled",
+  "os": "Darwin",
+  "os_release": "24.6.0",
+  "overhead": {
+    "interrupted": false,
+    "rounds": 2,
+    "seed": 20261029,
+    "trials": [
+      {
+        "all_attempt_latency_ms": {
+          "max": 211.781462,
+          "median": 141.278437,
+          "n": 100,
+          "p95": 174.162201
+        },
+        "cancelled_count": 0,
+        "cleanup_failure_count": 0,
+        "declared_codex_instances": null,
+        "declared_windows": 1,
+        "directory": null,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "incidents": 0,
+        "incomplete_post_window": false,
+        "interrupted": false,
+        "memory_pressure_counts": {},
+        "mode": "off",
+        "own_cpu_seconds": 0.22508699999999993,
+        "probe_count": 100,
+        "round": 1,
+        "run_id": "ddd11bc8-ad0e-41f2-9d98-03c27cf0028a",
+        "sample_count": 0,
+        "sample_interval_seconds": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "sample_window_count": 0,
+        "sampling_gap_count": 0,
+        "sampling_ms": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "scenario": "noop",
+        "self_cpu_percent_one_core": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "self_rss_bytes": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "success_count": 100,
+        "successful_latency_ms": {
+          "max": 211.781462,
+          "median": 141.278437,
+          "n": 100,
+          "p95": 174.162201
+        },
+        "swap_used_bytes": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "system_cpu_percent": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "wall_drift_abs_ms": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "wall_seconds": 14.46636256398051,
+        "worker_failed": false,
+        "worker_stopped": true
+      },
+      {
+        "all_attempt_latency_ms": {
+          "max": 180.066522,
+          "median": 140.58539150000001,
+          "n": 100,
+          "p95": 171.203974
+        },
+        "cancelled_count": 0,
+        "cleanup_failure_count": 0,
+        "declared_codex_instances": null,
+        "declared_windows": 1,
+        "directory": null,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "incidents": 0,
+        "incomplete_post_window": false,
+        "interrupted": false,
+        "memory_pressure_counts": {
+          "normal": 15
+        },
+        "mode": "memory",
+        "own_cpu_seconds": 0.443686,
+        "probe_count": 100,
+        "round": 1,
+        "run_id": "3f828b02-6d93-4c9c-aec5-6da8c3829f5d",
+        "sample_count": 15,
+        "sample_interval_seconds": {
+          "max": 1.004567716998281,
+          "median": 1.0003411775105633,
+          "n": 14,
+          "p95": 1.004567716998281
+        },
+        "sample_window_count": 15,
+        "sampling_gap_count": 0,
+        "sampling_ms": {
+          "max": 77.435225,
+          "median": 2.144942,
+          "n": 15,
+          "p95": 77.435225
+        },
+        "scenario": "noop",
+        "self_cpu_percent_one_core": {
+          "max": 7.1174104050913884,
+          "median": 1.8614892706275379,
+          "n": 14,
+          "p95": 7.1174104050913884
+        },
+        "self_rss_bytes": {
+          "max": 22728704,
+          "median": 22646784,
+          "n": 15,
+          "p95": 22728704
+        },
+        "success_count": 100,
+        "successful_latency_ms": {
+          "max": 180.066522,
+          "median": 140.58539150000001,
+          "n": 100,
+          "p95": 171.203974
+        },
+        "swap_used_bytes": {
+          "max": 483131392,
+          "median": 483131392,
+          "n": 15,
+          "p95": 483131392
+        },
+        "system_cpu_percent": {
+          "max": 67.08229426328577,
+          "median": 52.010050250943934,
+          "n": 14,
+          "p95": 67.08229426328577
+        },
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "wall_drift_abs_ms": {
+          "max": 0.03159671905450523,
+          "median": 0.007790746167302132,
+          "n": 14,
+          "p95": 0.03159671905450523
+        },
+        "wall_seconds": 14.481458640017081,
+        "worker_failed": false,
+        "worker_stopped": true
+      },
+      {
+        "all_attempt_latency_ms": {
+          "max": 374.272085,
+          "median": 172.2427885,
+          "n": 100,
+          "p95": 223.701238
+        },
+        "cancelled_count": 0,
+        "cleanup_failure_count": 0,
+        "declared_codex_instances": null,
+        "declared_windows": 1,
+        "directory": "run-0835c807e13847d295af917bfe40c4c1",
+        "error_count": 0,
+        "error_rate": 0.0,
+        "incidents": 0,
+        "incomplete_post_window": false,
+        "interrupted": false,
+        "memory_pressure_counts": {
+          "normal": 18
+        },
+        "mode": "logging",
+        "own_cpu_seconds": 0.574616,
+        "probe_count": 100,
+        "round": 1,
+        "run_id": "e0ded3d6-f86c-4453-971c-89abe83988bf",
+        "sample_count": 18,
+        "sample_interval_seconds": {
+          "max": 1.0046718859812245,
+          "median": 1.000030199997127,
+          "n": 17,
+          "p95": 1.0046718859812245
+        },
+        "sample_window_count": 18,
+        "sampling_gap_count": 0,
+        "sampling_ms": {
+          "max": 80.013819,
+          "median": 2.334244,
+          "n": 18,
+          "p95": 80.013819
+        },
+        "scenario": "noop",
+        "self_cpu_percent_one_core": {
+          "max": 8.210776716355586,
+          "median": 2.048488569603474,
+          "n": 17,
+          "p95": 8.210776716355586
+        },
+        "self_rss_bytes": {
+          "max": 23740416,
+          "median": 23638016.0,
+          "n": 18,
+          "p95": 23740416
+        },
+        "success_count": 100,
+        "successful_latency_ms": {
+          "max": 374.272085,
+          "median": 172.2427885,
+          "n": 100,
+          "p95": 223.701238
+        },
+        "swap_used_bytes": {
+          "max": 483131392,
+          "median": 483131392.0,
+          "n": 18,
+          "p95": 483131392
+        },
+        "system_cpu_percent": {
+          "max": 100,
+          "median": 95.76059850403385,
+          "n": 17,
+          "p95": 100
+        },
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "wall_drift_abs_ms": {
+          "max": 0.04732061643153429,
+          "median": 0.0081720354501158,
+          "n": 17,
+          "p95": 0.04732061643153429
+        },
+        "wall_seconds": 17.20894228099496,
+        "worker_failed": false,
+        "worker_stopped": true
+      },
+      {
+        "all_attempt_latency_ms": {
+          "max": 1049.978941,
+          "median": 206.4374955,
+          "n": 100,
+          "p95": 447.343881
+        },
+        "cancelled_count": 0,
+        "cleanup_failure_count": 0,
+        "declared_codex_instances": null,
+        "declared_windows": 1,
+        "directory": "run-505959a4d82a4cc293e8e84df49e99cf",
+        "error_count": 0,
+        "error_rate": 0.0,
+        "incidents": 0,
+        "incomplete_post_window": false,
+        "interrupted": false,
+        "memory_pressure_counts": {
+          "normal": 24
+        },
+        "mode": "logging",
+        "own_cpu_seconds": 0.7267230000000002,
+        "probe_count": 100,
+        "round": 2,
+        "run_id": "0df1f807-cd72-4d5a-9568-324b8d0410cb",
+        "sample_count": 24,
+        "sample_interval_seconds": {
+          "max": 1.008621156011941,
+          "median": 1.000036168989027,
+          "n": 23,
+          "p95": 1.0042426500003785
+        },
+        "sample_window_count": 24,
+        "sampling_gap_count": 0,
+        "sampling_ms": {
+          "max": 188.432544,
+          "median": 3.1686045,
+          "n": 24,
+          "p95": 97.530845
+        },
+        "scenario": "noop",
+        "self_cpu_percent_one_core": {
+          "max": 10.86361347408349,
+          "median": 1.812524529422952,
+          "n": 23,
+          "p95": 8.857394111833552
+        },
+        "self_rss_bytes": {
+          "max": 24981504,
+          "median": 24352768.0,
+          "n": 24,
+          "p95": 24977408
+        },
+        "success_count": 100,
+        "successful_latency_ms": {
+          "max": 1049.978941,
+          "median": 206.4374955,
+          "n": 100,
+          "p95": 447.343881
+        },
+        "swap_used_bytes": {
+          "max": 483131392,
+          "median": 483131392.0,
+          "n": 24,
+          "p95": 483131392
+        },
+        "system_cpu_percent": {
+          "max": 100,
+          "median": 99.75000000122236,
+          "n": 23,
+          "p95": 100
+        },
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "wall_drift_abs_ms": {
+          "max": 0.07319601718336344,
+          "median": 0.01135419006459415,
+          "n": 23,
+          "p95": 0.05217443685978651
+        },
+        "wall_seconds": 23.6101742379833,
+        "worker_failed": false,
+        "worker_stopped": true
+      },
+      {
+        "all_attempt_latency_ms": {
+          "max": 318.674426,
+          "median": 173.550074,
+          "n": 100,
+          "p95": 267.751344
+        },
+        "cancelled_count": 0,
+        "cleanup_failure_count": 0,
+        "declared_codex_instances": null,
+        "declared_windows": 1,
+        "directory": null,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "incidents": 0,
+        "incomplete_post_window": false,
+        "interrupted": false,
+        "memory_pressure_counts": {
+          "normal": 18
+        },
+        "mode": "memory",
+        "own_cpu_seconds": 0.5520860000000001,
+        "probe_count": 100,
+        "round": 2,
+        "run_id": "86182a47-30a9-4bd2-a08c-d2ecf6501299",
+        "sample_count": 18,
+        "sample_interval_seconds": {
+          "max": 1.0043633040040731,
+          "median": 1.0002282620116603,
+          "n": 17,
+          "p95": 1.0043633040040731
+        },
+        "sample_window_count": 18,
+        "sampling_gap_count": 0,
+        "sampling_ms": {
+          "max": 79.452041,
+          "median": 2.3587860000000003,
+          "n": 18,
+          "p95": 79.452041
+        },
+        "scenario": "noop",
+        "self_cpu_percent_one_core": {
+          "max": 8.624181291242563,
+          "median": 1.8087974577927135,
+          "n": 17,
+          "p95": 8.624181291242563
+        },
+        "self_rss_bytes": {
+          "max": 25645056,
+          "median": 25079808.0,
+          "n": 18,
+          "p95": 25645056
+        },
+        "success_count": 100,
+        "successful_latency_ms": {
+          "max": 318.674426,
+          "median": 173.550074,
+          "n": 100,
+          "p95": 267.751344
+        },
+        "swap_used_bytes": {
+          "max": 483131392,
+          "median": 483131392.0,
+          "n": 18,
+          "p95": 483131392
+        },
+        "system_cpu_percent": {
+          "max": 100,
+          "median": 91.99999999982538,
+          "n": 17,
+          "p95": 100
+        },
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "wall_drift_abs_ms": {
+          "max": 0.04901838838122785,
+          "median": 0.008848932338878512,
+          "n": 17,
+          "p95": 0.04901838838122785
+        },
+        "wall_seconds": 17.8875669479894,
+        "worker_failed": false,
+        "worker_stopped": true
+      },
+      {
+        "all_attempt_latency_ms": {
+          "max": 314.942728,
+          "median": 172.61606999999998,
+          "n": 100,
+          "p95": 226.05138
+        },
+        "cancelled_count": 0,
+        "cleanup_failure_count": 0,
+        "declared_codex_instances": null,
+        "declared_windows": 1,
+        "directory": null,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "incidents": 0,
+        "incomplete_post_window": false,
+        "interrupted": false,
+        "memory_pressure_counts": {},
+        "mode": "off",
+        "own_cpu_seconds": 0.270705,
+        "probe_count": 100,
+        "round": 2,
+        "run_id": "778e5c65-a689-44fb-843e-b1b5ffaece6c",
+        "sample_count": 0,
+        "sample_interval_seconds": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "sample_window_count": 0,
+        "sampling_gap_count": 0,
+        "sampling_ms": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "scenario": "noop",
+        "self_cpu_percent_one_core": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "self_rss_bytes": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "success_count": 100,
+        "successful_latency_ms": {
+          "max": 314.942728,
+          "median": 172.61606999999998,
+          "n": 100,
+          "p95": 226.05138
+        },
+        "swap_used_bytes": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "system_cpu_percent": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "wall_drift_abs_ms": {
+          "max": null,
+          "median": null,
+          "n": 0,
+          "p95": null
+        },
+        "wall_seconds": 17.418089360988233,
+        "worker_failed": false,
+        "worker_stopped": true
+      }
+    ]
+  },
+  "physical_cpus": 4,
+  "psutil": "7.2.2",
+  "python": "3.11.15",
+  "ram_total_bytes": 34359738368,
+  "schema_version": 1,
+  "task_id": "monitor-codex-development-brief-20261029",
+  "utc": "2026-10-29T23:43:36.128447+00:00"
+}

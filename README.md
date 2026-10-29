@@ -70,7 +70,8 @@ Jeder persistierte Run hat `metadata.json`, `samples.jsonl`, `events.jsonl`,
 `probes.csv`, `incidents.jsonl` und `summary.json`. JSONL enthält schema_version,
 run_id, UTC und monotonic_ns; sequence ist die Reihenfolge der Übernahme im
 Monitor. Quellzeit kann leicht von dieser Reihenfolge abweichen. CSV enthält
-Probe-Zeiten und numerische Ergebnisse. Kein Netzwerkverkehr wird mitgeschnitten.
+Probe-Zeiten und numerische Ergebnisse. Start-/Endstempel umschließen den
+Probeaufruf; duration_ns misst darin den Popen-/Warte-/Cleanup-Abschnitt. Kein Netzwerkverkehr wird mitgeschnitten.
 
 CPU ist systemweit in Prozent; Eigen- und Prozess-CPU beziehen sich auf einen
 Kern (können >100 % sein). Disk/Netzwerk sind aggregierte Bytes und Bytes/s,
@@ -96,7 +97,8 @@ Run-Dateien. Ausgabe für dauerhafte Auswertung bei Bedarf privat umleiten.
 Sampling-Statistiken verwenden höchstens die letzten 3600 Samples, zusätzlich
 werden Gesamtzahl und Lücken gezählt. Probelisten sind auf 10000 pro Run begrenzt.
 Wandzeitabweichung und tatsächliche Sampleintervalle helfen Uhrsprünge oder
-Abtastlücken zu erkennen. Monotone Werte verschiedener Run-IDs nicht subtrahieren.
+Abtastlücken zu erkennen. Monotone Werte verschiedener Run-IDs nicht subtrahieren. Die tatsächliche
+Uhrauflösung ist plattformabhängig; wiederholte Ticks ergeben keine Raten.
 
 ## Blackbox und Datenschutz
 
@@ -139,7 +141,7 @@ Windows-Shell-Proben bleiben ausgenommen. Keine lokalen Rohdaten werden in CI
 hochgeladen.
 
 [Architektur/Phasen/Testplan](docs/PLAN.md), [Vergleichsrecherche](docs/RESEARCH.md),
-[optionaler Ereignisvertrag](docs/EVENTS.md), [Ergebnisse](docs/RESULTS.md).
+[optionaler Ereignisvertrag](docs/EVENTS.md), [Phasenergebnisse](docs/RESULTS.md), [Abschlussbericht mit Messwerten](docs/REPORT.md).
 Die Ursachen in Desktop Commander sind Vergleichsmaterial, keine Diagnose von
 KiraBridge. Ohne spätere Werkzeugereignisse kann dieser Monitor lokale Last und
 Latenzen dokumentieren, aber Kommunikationsverluste oder falsches busy nicht

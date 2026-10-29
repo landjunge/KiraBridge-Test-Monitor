@@ -98,3 +98,26 @@ Test hinzugefügt. Wieder keine Änderung der Laufzeitmodule.
 Akzeptanz: **40/40 lokal bestanden**, 17.972 s. Der neue Remote-Lauf prüft alle
 vier Matrixeinträge erneut. Diese Testkorrektur verändert die zuvor erhobenen
 Forschungsmessungen nicht.
+
+## Phase 4d – Messungen, finaler CI-Nachweis und Veröffentlichung
+
+Messskript erfolgreich mit Exitcode 0 beendet: sechs 100er-Trials (600 Erfolge,
+0 Timeouts/Fehler/Cleanupfehler), danach zwei 60-s-Idle-Runs. Gemessener
+Median der Eigen-CPU etwa 0.20 % eines Kerns, zeitlicher Mittelwert etwa 1.1 %,
+RSS maximal 25.97 MiB, Sampling-p95 maximal 54.43 ms. Alle drei geplanten
+Median-/RSS-/p95-Ziele auf diesem Host eingehalten; keine Generalisierung auf
+andere Geräte. Die Logging-Trials hatten zugleich 95.76/99.75 % System-CPU
+im Median: daraus lässt sich kein isolierter Loggingeffekt ableiten.
+Keine KiraBridge-Fehlerursache nachgewiesen, keine Integration vorgenommen.
+
+[Abschlussbericht](REPORT.md) enthält genaue Werte, Unsicherheit und Grenzen;
+[numerische Aggregate](measurements/2026-10-30.json) sind versioniert.
+Private Rohdaten bleiben ignoriert. Dateimodi, Record-Struktur, Rotationsgrenzen,
+Run-IDs und veröffentlichte Felder geprüft. LICENSE unverändert.
+
+Finaler [CI-Lauf 40975602856](https://github.com/landjunge/KiraBridge-Test-Monitor/actions/runs/40975602856):
+**4/4 Jobs erfolgreich**, macOS Intel und Linux 3.9/3.13 jeweils 40 Tests,
+Windows 23 Tests plus 17 explizite POSIX-Skips. Lokale Suite: 40/40 in 17.972 s.
+Laufzeitcode seit Messcommit 93d3c73 unverändert. Abschließend Dokumente und
+Aggregate committen/pushen; exakten finalen HEAD und Live-Remotevergleich im
+sichtbaren Abschluss und der KiraBridge-Ergebnisnachricht belegen.

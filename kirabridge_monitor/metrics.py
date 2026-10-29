@@ -139,7 +139,10 @@ class Sampler:
             idle = fields.get("idle", 0) + fields.get("iowait", 0)
             prior = self.previous_cpu
             delta = total - prior[0] if prior is not None else 0
-            metrics["cpu_percent"] = max(0, min(100, 100 * (1 - (idle - prior[1]) / delta))) if delta > 0 and idle >= prior[1] and (total - idle) >= (prior[0] - prior[1]) else None
+            valid = (delta > 0 and idle >= prior[1]
+                     and (total - idle) >= (prior[0] - prior[1]))
+            metrics["cpu_percent"] = (max(0, min(100, 100 * (1 - (idle - prior[1]) / delta)))
+                                      if valid else None)
             self.previous_cpu = (total, idle)
         else:
             metrics["cpu_percent"] = None

@@ -49,13 +49,12 @@ def wait_owned(argv, timeout, cancelled=None):
                 break
             remaining = (deadline - time.monotonic_ns()) / 1e9
             if remaining <= 0:
-                # A process that actually exited is successful even at the boundary.
                 exit_code = process.poll()
-                status = ("ok" if exit_code == 0 else "error") if exit_code is not None else "timeout"
+                status = "timeout"  # completion was not observed within the deadline
                 break
             try:
                 exit_code = process.wait(timeout=min(remaining, 0.1))
-                status = "ok" if exit_code == 0 else "error"
+                status = ("ok" if exit_code == 0 else "error") if time.monotonic_ns() <= deadline else "timeout"
                 break
             except subprocess.TimeoutExpired:
                 continue

@@ -51,3 +51,22 @@ auf die letzten 3600 Samples begrenzt; Probezahl auf 10000. Ausgabevolumentests
 gehen nach DEVNULL und bilden PTY/Renderer/MCP-Puffer nicht nach. Windows-
 Proben bleiben ausdrücklich späteres Ziel. Kernel-Speicherdruck hier normal/ok.
 Die Forschungs-Baselines und längere Eigenlastmessung folgen in Phase 4.
+
+## Phase 4a – Zuverlässigkeit vor den Forschungsmessungen
+
+Collector wartet auf Queue-Ereignisse und monotone Deadlines statt regelmäßig
+nachzusehen. Timeout ist explizit ein nicht innerhalb der Deadline beobachteter
+Abschluss; langsame OS-Prozesserzeugung bleibt als Einschränkung dokumentiert.
+Incident-Wrapper tragen dieselbe Run-ID und eigene Dual-Clock-Zeitstempel.
+API-Grenzen, CPU-Counterreset und PID-Wiederverwendung werden abgefangen.
+
+Akzeptanz: **38/38 Tests bestanden** in 19.446 s mit der installierten .venv.
+Neu geprüft: echter SIGTERM-Abbruch des eigenen CLI-Prozesses inklusive
+Summary/Blackbox-Footer, KeyboardInterrupt-Cleanup, sichtbarer Cleanupfehler,
+endlicher überlappender Nachlauf, CPU-Reset, Kernelabfragefehler,
+Prozesskategorien ohne private Namen, PID-Wiederverwendung und RAM-Grenze.
+GitHub-CI für macOS Intel, Linux Python 3.9/3.13 und Windows-Grundpfade
+konfiguriert; zum Zeitpunkt dieses Commits noch kein Remote-Testnachweis.
+Standard-Runner nur bei öffentlichem Repository aktiviert, keine Rohdaten-
+Uploads. `scripts/measure_local.py` ermöglicht die folgende sequenzielle
+Forschungsmessung mit Commit-Nachweis; `requirements-tested.txt` pinnt psutil.

@@ -1,0 +1,41 @@
+name: tests
+on:
+  push:
+    paths:
+      - 'kirabridge_monitor/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - 'pyproject.toml'
+      - 'requirements-tested.txt'
+      - '.github/workflows/**'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    if: github.event.repository.private == false
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            python: '3.9'
+          - os: ubuntu-24.04
+            python: '3.13'
+          - os: macos-15-intel
+            python: '3.11'
+          - os: windows-2022
+            python: '3.11'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -c requirements-tested.txt -e .
+      - run: python -m pip check
+      - run: python -m unittest discover -s tests -v
+      - name: Verify original LICENSE bytes
+        run: python -c "import subprocess; assert subprocess.check_output(['git', 'hash-object', 'LICENSE']).strip() == b'c5020fe627e99069d5be723e6857538e69d3d511'"

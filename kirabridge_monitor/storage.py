@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 import uuid
 
+from .clock import Clock
+
 
 def run_directory(root):
     root = Path(root)
@@ -85,9 +87,10 @@ class CSVWriter(RotatingWriter):
 
 class BlackBox:
     """One merged incident at a time; bounded prehistory and posthistory."""
-    def __init__(self, writer=None, capacity=120, post_seconds=10):
+    def __init__(self, writer=None, capacity=120, post_seconds=10, clock=None):
         if capacity < 1 or post_seconds < 0:
             raise ValueError("invalid blackbox limits")
+        self.clock = clock or Clock()
         self.ring = deque(maxlen=capacity)
         self.writer = writer
         self.post_ns = int(post_seconds * 1e9)
@@ -96,7 +99,7 @@ class BlackBox:
 
     def _write(self, record):
         if self.writer:
-            self.writer.json(record)
+            self.writer.json({**self.clock.stamp(), **record})
 
     def observe(self, record):
         now = record["monotonic_ns"]

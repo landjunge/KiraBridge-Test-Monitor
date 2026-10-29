@@ -1,6 +1,7 @@
 """Single writer event loop; independent probe worker never touches other sessions."""
 from contextlib import ExitStack
 import platform
+import math
 import queue
 import random
 import signal
@@ -10,7 +11,7 @@ import time
 from . import __version__
 from .clock import Clock
 from .metrics import Sampler
-from .probe import probe_once
+from .probe import SCENARIOS, probe_once
 from .report import Summary
 from .storage import BlackBox, CSVWriter, RotatingWriter, run_directory
 
@@ -32,6 +33,16 @@ def run_session(*, mode="logging", output="runs", interval=1.0, duration=60.0,
                 repetitions=None, scenario="noop", timeout=2.0, ring=120, post=10.0,
                 max_bytes=1048576, backups=3, windows=1, codex_instances=None,
                 marker=False):
+    if mode not in ("off", "memory", "logging") or scenario not in SCENARIOS:
+        raise ValueError("invalid session mode or scenario")
+    if not all(math.isfinite(v) for v in (interval, duration, timeout, post)):
+        raise ValueError("nonfinite session parameter")
+    if interval <= 0 or duration <= 0 or timeout <= 0 or not 0 <= post <= 60:
+        raise ValueError("invalid session timing")
+    if repetitions is not None and not 1 <= repetitions <= 10000:
+        raise ValueError("invalid probe count")
+    if not 1 <= ring <= 3600 or not 16384 <= max_bytes <= 16777216 or not 0 <= backups <= 10:
+        raise ValueError("invalid storage bounds")
     clock = Clock()
     summary = Summary()
     stop = threading.Event()
@@ -43,7 +54,7 @@ def run_session(*, mode="logging", output="runs", interval=1.0, duration=60.0,
     started = time.monotonic()
     cpu_started = time.process_time()
     sample_writer = event_writer = csv_writer = None
-    box = BlackBox(capacity=ring, post_seconds=post)
+    box = BlackBox(capacity=ring, post_seconds=post, clock=clock)
     # Ctrl-C is supported everywhere; SIGTERM on CLI main thread uses same cleanup.
     previous_sigterm = None
     if threading.current_thread() is threading.main_thread():
@@ -52,6 +63,14 @@ def run_session(*, mode="logging", output="runs", interval=1.0, duration=60.0,
             raise KeyboardInterrupt
         signal.signal(signal.SIGTERM, terminate)
 
+    def emit(item):
+        while not stop.is_set():
+            try:
+                messages.put(item, timeout=0.1)
+                return
+            except queue.Full:
+                continue
+
     def produce():
         try:
             for index in range(repetitions):
@@ -59,21 +78,12 @@ def run_session(*, mode="logging", output="runs", interval=1.0, duration=60.0,
                     break
                 record = probe_once(scenario, timeout, clock, stop)
                 record["probe_index"] = index + 1
-                while not stop.is_set():
-                    try:
-                        messages.put(record, timeout=0.1)
-                        break
-                    except queue.Full:
-                        continue
+                emit(record)
         except Exception:
             # Fixed failure kind only: exceptions may carry private local paths.
-            try:
-                messages.put({"kind": "worker_error", **clock.stamp()}, timeout=0.1)
-            except queue.Full:
-                pass
+            emit({"kind": "worker_error", **clock.stamp()})
         finally:
-            # Completion indicated by thread state, so no blocking sentinel put.
-            stop_producing.set()
+            emit({"kind": "worker_done"})
 
     def record(item):
         nonlocal sequence
@@ -90,7 +100,7 @@ def run_session(*, mode="logging", output="runs", interval=1.0, duration=60.0,
         if item.get("reason"):
             box.trigger(item)
 
-    stop_producing = threading.Event()
+    worker_done = repetitions is None
     worker_failed = False
     sequence = 0
     try:
@@ -132,15 +142,13 @@ def run_session(*, mode="logging", output="runs", interval=1.0, duration=60.0,
             if repetitions is not None:
                 producer = threading.Thread(target=produce, name="synthetic-probe", daemon=True)
                 producer.start()
-            else:
-                stop_producing.set()
             deadline = started + duration
             while True:
                 now = time.monotonic()
                 if repetitions is None:
                     if now >= deadline:
                         break
-                elif stop_producing.is_set() and messages.empty() and not box.active:
+                elif worker_done and messages.empty() and not box.active:
                     break
                 if sampler and now >= next_sample:
                     sample = sampler.sample()
@@ -149,13 +157,23 @@ def run_session(*, mode="logging", output="runs", interval=1.0, duration=60.0,
                         record({**clock.stamp(), "kind": "event", "reason": "sampling_gap"})
                     # No catch-up burst after a slow sample/write.
                     next_sample = max(next_sample + interval, time.monotonic() + 0.001)
-                wait = min(0.1, max(0, next_sample - time.monotonic())) if sampler else 0.05
+                wake_at = []
+                if sampler:
+                    wake_at.append(next_sample)
+                if repetitions is None:
+                    wake_at.append(deadline)
+                if box.active:
+                    wake_at.append(box.active["deadline_ns"] / 1e9)
+                wait = max(0, min(wake_at) - time.monotonic()) if wake_at else None
                 try:
                     item = messages.get(timeout=wait)
                 except queue.Empty:
                     # Even mode off must finish an incident post-window.
                     if box.active and time.monotonic_ns() >= box.active["deadline_ns"]:
                         box.finish(complete=True)
+                    continue
+                if item["kind"] == "worker_done":
+                    worker_done = True
                     continue
                 if item["kind"] == "worker_error":
                     worker_failed = True

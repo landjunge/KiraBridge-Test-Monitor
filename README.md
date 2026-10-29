@@ -85,8 +85,8 @@ KiraBridge als Python-Prozess ist ohne Argumentabfrage möglicherweise nicht
 eindeutig als KiraBridge erkennbar; das ist eine bewusste Datenschutzgrenze.
 
 Summary: Median und nearest-rank p95 erfolgreicher Proben; alle Versuche separat,
-Timeoutquote und Fehlerquote mit Nenner aller Versuche. Timeoutlaufzeiten
-enthalten auch Cleanup und sind zensierte Messungen. OS-Prozesserzeugung kann
+Timeoutquote und Fehlerquote mit Nenner aller Versuche. Ein Timeout bedeutet, dass der Abschluss nicht innerhalb der monotonen
+Deadline beobachtet wurde. Timeoutlaufzeiten enthalten auch Cleanup und sind zensierte Messungen. OS-Prozesserzeugung kann
 nicht auf jeder Plattform unterbrochen werden; der Timeout ist keine harte
 Garantie für die gesamte Walltime. Eigene CPU-Zeit umfasst Sampling, Writer,
 Probe-Steuerung und Setup, **nicht** CPU-Zeit der Children. Beim `overhead`-Befehl
@@ -127,7 +127,16 @@ Stromausfallfestigkeit wird nicht zugesagt (kein fsync pro Sample).
 
 ```sh
 .venv/bin/python -m unittest discover -s tests -v
+# Reproduzierbare numerische Forschungsmessung (ca. 4 Minuten auf diesem Mac):
+.venv/bin/python scripts/measure_local.py
 ```
+
+Die Forschungsmessung führt sechs 100er-Trials und zwei 60-s-Idle-Runs
+sequenziell aus. Ein zusätzlicher privater Run-Ordner enthält report.json
+(maximal 1 MiB), einschließlich Code-Commit und Dirty-Status. Standard-Runner
+der CI prüfen macOS Intel, Linux (Python 3.9/3.13) und Windows-Ressourcenpfade;
+Windows-Shell-Proben bleiben ausgenommen. Keine lokalen Rohdaten werden in CI
+hochgeladen.
 
 [Architektur/Phasen/Testplan](docs/PLAN.md), [Vergleichsrecherche](docs/RESEARCH.md),
 [optionaler Ereignisvertrag](docs/EVENTS.md), [Ergebnisse](docs/RESULTS.md).

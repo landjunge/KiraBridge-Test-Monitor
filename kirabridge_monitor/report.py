@@ -1,5 +1,5 @@
 """Bounded exact probe statistics and bounded rolling sample statistics."""
-from collections import deque
+from collections import Counter, deque
 import math
 import statistics
 
@@ -55,4 +55,8 @@ class Summary:
             "sampling_ms": distribution([s["sampling_ns"] / 1e6 for s in self.samples]),
             "self_cpu_percent_one_core": distribution([s["metrics"]["self_cpu_percent"] for s in self.samples]),
             "self_rss_bytes": distribution([s["metrics"]["self_rss_bytes"] for s in self.samples]),
+            "system_cpu_percent": distribution([s["metrics"].get("cpu_percent") for s in self.samples]),
+            "memory_pressure_counts": dict(Counter(s["metrics"].get("memory_pressure") or "unavailable"
+                                                   for s in self.samples)),
+            "swap_used_bytes": distribution([s["metrics"].get("swap_used_bytes") for s in self.samples]),
         }

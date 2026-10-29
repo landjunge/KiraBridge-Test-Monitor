@@ -162,6 +162,7 @@ class CLITests(unittest.TestCase):
             with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
                 parser().parse_args(args)
 
+    @unittest.skipUnless(os.name == "posix", "POSIX synthetic shell probes")
     def test_cli_result_exit_status_and_json(self):
         import contextlib
         import io

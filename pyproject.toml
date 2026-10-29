@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kirabridge-test-monitor"
+version = "0.1.0"
+description = "Private local resource sampling and synthetic terminal latency research"
+requires-python = ">=3.9"
+dependencies = ["psutil>=5.9,<8"]
+license = {file = "LICENSE"}
+
+[project.scripts]
+kira-monitor = "kirabridge_monitor.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["kirabridge_monitor*"]
